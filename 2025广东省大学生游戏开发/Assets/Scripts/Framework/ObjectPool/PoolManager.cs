@@ -40,6 +40,11 @@ public class PoolManager : Singleton<PoolManager>
     public Dictionary<string,PoolData> poolDic = new Dictionary<string,PoolData>();
     private GameObject poolObj;
 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void GetObj(string name,UnityAction<GameObject> callback)
     {
         if (poolDic.ContainsKey(name) && poolDic[name].poolList.Count>0)
@@ -51,9 +56,8 @@ public class PoolManager : Singleton<PoolManager>
             ResourcesManager.Instance.LoadAsync<GameObject>(name, ((o) =>
             {
                 o.name = name;
+                callback(o);
             }));
-            //obj = Instantiate(Resources.Load<GameObject>("Prefabs" + name));
-            //obj.name = name;
         }
     }
 

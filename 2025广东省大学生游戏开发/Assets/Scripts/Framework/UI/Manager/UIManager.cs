@@ -65,7 +65,7 @@ public class UIManager : Singleton<UIManager>
             }
             return;
         }
-        ResourcesManager.Instance.LoadAsync<GameObject>("UI/Planes/"+panelName, (obj) =>
+        ResourcesManager.Instance.LoadAsync<GameObject>("UI/Panels/"+panelName, (obj) =>
         {
             //把他设置为canvas的子对象
             //并且设置相对位置

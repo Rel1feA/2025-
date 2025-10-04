@@ -4,12 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum PlayerType
-{
-    P1,
-    P2
-}
-
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -17,30 +11,15 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb2d;
     private Vector2 currentDir;
     private Vector2 inputDir;
-    private PlayerKey inputActions;
 
     public float speed;
     [Range(0.3f,1f)]
     public float speedMultiplier;
-
     public Vector2 rayBoxSize;
-
-    public PlayerType playerType;
 
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        inputActions=new PlayerKey();
-    }
-
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Disable();
     }
 
     private void Start()
@@ -50,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        SetInputDir();
         ChangeDir(inputDir);
     }
 
@@ -59,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-    public void SetInputDir( )
+    public void SetInputDir(PlayerKey inputActions,PlayerType playerType)
     {
         switch (playerType)
         {
@@ -109,6 +87,11 @@ public class PlayerMovement : MonoBehaviour
         {
             speedMultiplier = 1f;
         }
+    }
+
+    public Vector2 GetCurDir()
+    {
+        return currentDir;
     }
 
     private void OnDrawGizmos()
