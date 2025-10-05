@@ -16,8 +16,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public PlayerType playerType;
 
-    [Range(-1f,0f)]
-    public float lowSpeed;//吃到豆子后减少的速度
+
     [Range(0f, 1f)]
     public float upSpeed;//射出豆子后增加的速度
     public float bossTime;//无敌时间
@@ -26,7 +25,7 @@ public class Player : MonoBehaviour
     public CircleCollider2D cCollider;
 
 
-    private int score;
+    private float score;
     private bool canShoot;
 
     private void Awake()
@@ -105,7 +104,7 @@ public class Player : MonoBehaviour
         });
     }
 
-    public void ChangeScore(int val)
+    public void ChangeScore(float val)
     {
         score += val;
         if(score<0)
@@ -145,7 +144,7 @@ public class Player : MonoBehaviour
         this.canShoot = canShoot;
     }
 
-    public int GetScore()
+    public float GetScore()
     {
         return score;
     }
@@ -188,8 +187,9 @@ public class Player : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             AudioManager.Instance.PlayAudio("EatDot");
-            movement.ChangeSpeed(lowSpeed);
-            ChangeScore(collision.gameObject.GetComponent<Beans>().score);
+            Beans beans = collision.gameObject.GetComponent<Beans>();
+            movement.ChangeSpeed(beans.GetLowerSpeed());
+            ChangeScore(beans.score);
         }
     }
 }

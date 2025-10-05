@@ -5,5 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Beans : MonoBehaviour
 {
-    public int score;
+    public float score;
+
+    public float GetLowerSpeed()
+    {
+        return -score/1000;
+    }
 }

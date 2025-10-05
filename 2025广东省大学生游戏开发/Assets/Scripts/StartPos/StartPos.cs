@@ -14,7 +14,7 @@ public class StartPos : MonoBehaviour
             if(player.playerType==playerType)
             {
                 AudioManager.Instance.PlayAudio("Score");
-                GameManager.Instance.ChangeScore(player,player.GetScore());
+                GameManager.Instance.ChangeScore(player,(int)player.GetScore());
                 player.ChangeScore(-player.GetScore());
                 player.GetMovement().ResetSpeed();
             }
