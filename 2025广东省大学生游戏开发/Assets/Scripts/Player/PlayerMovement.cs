@@ -18,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 rayBoxSize;
     public Vector2 startDir;
 
+    private void OnEnable()
+    {
+        ResetMovement();
+    }
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -93,6 +98,12 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 GetCurDir()
     {
         return currentDir;
+    }
+
+    public void ResetMovement()
+    {
+        currentDir = startDir;
+        speedMultiplier = 1;
     }
 
     private void OnDrawGizmos()
