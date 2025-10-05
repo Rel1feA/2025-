@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rb2d;
     private Player shootPlayer;
+    public BoxCollider2D boxCol;
+    private Collider2D ignoreCollider;
     public Vector2 dir;
     public float speed;
     
@@ -14,6 +16,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        boxCol=GetComponent<BoxCollider2D>();
     }
 
     private void FixedUpdate()
@@ -34,17 +37,30 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    public void SetIgnoreCol(Collider2D col)
+    {
+        ignoreCollider=col;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("Wall"))
         {
             shootPlayer.SetCanShoot(true);
+            if(ignoreCollider!=null)
+            {
+                Physics2D.IgnoreCollision(ignoreCollider, boxCol, false);
+            }
             PoolManager.Instance.PushObj("Prefabs/Bullet", gameObject);
         }
         if(collision.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Player>().Dead();
             shootPlayer.SetCanShoot(true);
+            if (ignoreCollider != null)
+            {
+                Physics2D.IgnoreCollision(ignoreCollider, boxCol, false);
+            }
             PoolManager.Instance.PushObj("Prefabs/Bullet", gameObject);
         }
     }

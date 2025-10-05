@@ -20,6 +20,11 @@ public class Player : MonoBehaviour
     public float lowSpeed;//吃到豆子后减少的速度
     [Range(0f, 1f)]
     public float upSpeed;//射出豆子后增加的速度
+    public float bossTime;//无敌时间
+    public bool isInBoss;
+
+    public CircleCollider2D cCollider;
+
 
     private int score;
     private bool canShoot;
@@ -28,6 +33,7 @@ public class Player : MonoBehaviour
     {
         movement = GetComponent<PlayerMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        cCollider = GetComponent<CircleCollider2D>();
         inputActions=new PlayerKey();
     }
 
@@ -58,6 +64,7 @@ public class Player : MonoBehaviour
     {
         score = 0;
         canShoot = true;
+        StartCoroutine(IBossTime(bossTime));
     }
 
     public void InitInput()
@@ -77,18 +84,23 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext c)
     {
-        if (!canShoot) return;
-        if (score < 10) return;
-        ChangeScore(-10);
-        movement.ChangeSpeed(upSpeed);
-        canShoot = false;
+        if(!isInBoss)
+        {
+            if (!canShoot) return;
+            if (score < 10) return;
+            ChangeScore(-10);
+            movement.ChangeSpeed(upSpeed);
+            canShoot = false;
+        }
         AudioManager.Instance.PlayAudio("Fire");
         PoolManager.Instance.GetObj("Prefabs/Bullet", (obj) =>
         {
-            obj.transform.position=transform.position+(Vector3)movement.GetCurDir()*0.8f;
+            obj.transform.position=transform.position;
             obj.transform.rotation=transform.rotation;
             Bullet bullet = obj.GetComponent<Bullet>();
             bullet.SetShootPlayer(this);
+            Physics2D.IgnoreCollision(cCollider, bullet.boxCol);
+            bullet.SetIgnoreCol(cCollider);
             bullet.dir=movement.GetCurDir();
         });
     }
@@ -141,6 +153,25 @@ public class Player : MonoBehaviour
     public PlayerMovement GetMovement()
     {
         return movement;
+    }
+
+    public IEnumerator IBossTime(float time)
+    {
+        EnterBoss();
+        yield return new WaitForSeconds(time);
+        QuitBoss();
+    }
+
+    public void EnterBoss()
+    {
+        isInBoss= true;
+        spriteRenderer.color = new Color(1, 1, 1, 0.1f);
+    }
+
+    public void QuitBoss()
+    {
+        isInBoss = false;
+        spriteRenderer.color = new Color(1, 1, 1, 1f);
     }
 
 

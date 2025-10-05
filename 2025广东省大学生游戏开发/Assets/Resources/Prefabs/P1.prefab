@@ -166,6 +166,8 @@ MonoBehaviour:
   playerType: 0
   lowSpeed: -0.01
   upSpeed: 0.01
+  bossTime: 2
+  cCollider: {fileID: 0}
 --- !u!114 &1123494539246941754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c685aa18183a54fa4cb632a8d28373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 4
   speedMultiplier: 1
   rayBoxSize: {x: 0.95, y: 0.95}
   startDir: {x: 1, y: 0}
