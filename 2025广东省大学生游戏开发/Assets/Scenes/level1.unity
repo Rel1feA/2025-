@@ -24848,7 +24848,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -33468,7 +33468,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -512308973, guid: 9173977233b9c2e43b0c78d0e804510b, type: 3}
+  m_Sprite: {fileID: 867633017, guid: 2d8294edc629ed1488c4c592c540d3f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -35941,7 +35941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 2dc44da1defe1234a9518c4231673cbb, type: 3}
+  - clip: {fileID: 8300000, guid: 14c9628935a180548a1417dbca849069, type: 3}
     mixerGroup: {fileID: 1962542029472089440, guid: 59ef8726fbf72f341b9a14cfe454ae09, type: 2}
     audioType: 0
     volume: 1
@@ -35954,6 +35954,12 @@ MonoBehaviour:
     playOnAwake: 0
     loop: 0
   - clip: {fileID: 8300000, guid: 35002b67736b5ba41ba5312b94715f58, type: 3}
+    mixerGroup: {fileID: -4267657738669601376, guid: 59ef8726fbf72f341b9a14cfe454ae09, type: 2}
+    audioType: 1
+    volume: 1
+    playOnAwake: 0
+    loop: 0
+  - clip: {fileID: 8300000, guid: 20dc1690966ee004eb72c5b49f5af839, type: 3}
     mixerGroup: {fileID: -4267657738669601376, guid: 59ef8726fbf72f341b9a14cfe454ae09, type: 2}
     audioType: 1
     volume: 1
@@ -36407,8 +36413,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -512308973, guid: 9173977233b9c2e43b0c78d0e804510b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -569982876, guid: 2d8294edc629ed1488c4c592c540d3f2, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
