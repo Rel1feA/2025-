@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Range(0.3f,1f)]
     public float speedMultiplier;
     public Vector2 rayBoxSize;
+    public Vector2 startDir;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        currentDir = Vector2.right;
+        currentDir = startDir;
     }
 
     private void Update()

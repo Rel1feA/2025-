@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 {
     private PlayerMovement movement;
     private PlayerKey inputActions;
+    private SpriteRenderer spriteRenderer;
     public PlayerType playerType;
 
     [Range(-1f,0f)]
@@ -20,11 +21,12 @@ public class Player : MonoBehaviour
     [Range(0f, 1f)]
     public float upSpeed;//射出豆子后增加的速度
 
-    public int score;
+    private int score;
 
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         inputActions=new PlayerKey();
     }
 
@@ -72,9 +74,12 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext c)
     {
+        if (score < 10) return;
+        ChangeScore(-10);
         PoolManager.Instance.GetObj("Prefabs/Bullet", (obj) =>
         {
-            obj.transform.position=transform.position;
+            obj.transform.position=transform.position+(Vector3)movement.GetCurDir()*0.8f;
+            obj.transform.rotation=transform.rotation;
             obj.GetComponent<Bullet>().dir = movement.GetCurDir();
         });
     }
@@ -82,7 +87,17 @@ public class Player : MonoBehaviour
     public void ChangeScore(int val)
     {
         score += val;
-        EventCenter.Instance.EventTrigger("Player1ScoreChange",score);
+        switch (playerType)
+        {
+            case PlayerType.P1 :
+                EventCenter.Instance.EventTrigger("Player1ScoreChange", score);
+                break;
+            case PlayerType .P2:
+                EventCenter.Instance.EventTrigger("Player2ScoreChange", score);
+                break;
+            default:
+                break;
+        }
     }
 
     public void RotateSprite()
@@ -91,19 +106,28 @@ public class Player : MonoBehaviour
         if(dir==Vector2.right)
         {
             transform.rotation = Quaternion.Euler(0,0,0);
+            spriteRenderer.flipX = false;
         }
         else if(dir==Vector2.up)
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
+            spriteRenderer.flipX = false;
         }
         else if( dir==Vector2.down)
         {
             transform.rotation = Quaternion.Euler(0, 0, -90);
+            spriteRenderer.flipX = false;
         }
         else if(dir == Vector2.left)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 180);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            spriteRenderer.flipX = true;
         }
+    }
+
+    public void Dead()
+    {
+        Debug.Log(name + "Dead");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -112,7 +136,7 @@ public class Player : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             movement.ChangeSpeed(lowSpeed);
-            ChangeScore(1);
+            ChangeScore(collision.gameObject.GetComponent<Beans>().score);
         }
     }
 }
