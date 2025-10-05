@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 rayBoxSize;
     public Vector2 startDir;
 
+
+
     private void OnEnable()
     {
         ResetMovement();

@@ -80,6 +80,7 @@ public class Player : MonoBehaviour
         if (!canShoot) return;
         if (score < 10) return;
         ChangeScore(-10);
+        movement.ChangeSpeed(upSpeed);
         canShoot = false;
         PoolManager.Instance.GetObj("Prefabs/Bullet", (obj) =>
         {
@@ -94,16 +95,9 @@ public class Player : MonoBehaviour
     public void ChangeScore(int val)
     {
         score += val;
-        switch (playerType)
+        if(score<0)
         {
-            case PlayerType.P1 :
-                EventCenter.Instance.EventTrigger("Player1ScoreChange", score);
-                break;
-            case PlayerType .P2:
-                EventCenter.Instance.EventTrigger("Player2ScoreChange", score);
-                break;
-            default:
-                break;
+            score = 0;
         }
     }
 
