@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Beans : MonoBehaviour
 {
-    
+    public int score;
 }

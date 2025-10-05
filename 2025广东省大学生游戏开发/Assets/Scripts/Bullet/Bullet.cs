@@ -31,5 +31,9 @@ public class Bullet : MonoBehaviour
         {
             PoolManager.Instance.PushObj("Prefabs/Bullet", gameObject);
         }
+        if(collision.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Player>().Dead();
+        }
     }
 }
