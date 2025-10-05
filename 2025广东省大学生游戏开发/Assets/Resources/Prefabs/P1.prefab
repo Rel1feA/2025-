@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 0
   lowSpeed: -0.01
-  upSpeed: 0
+  upSpeed: 0.01
 --- !u!114 &1123494539246941754
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,23 +7,24 @@ public class ScorePanel : BasePanel
 {
     private void OnEnable()
     {
-        EventCenter.Instance.AddListener<int>("Player1ScoreChange", UpdateP1ScoreText);
-        EventCenter.Instance.AddListener<int>("Player2ScoreChange", UpdateP2ScoreText);
+        EventCenter.Instance.AddListener<Player>("PlayerGetScore", UpdateScoreText);
     }
 
     private void OnDisable()
     {
-        EventCenter.Instance.RemoveListener<int>("Player1ScoreChange", UpdateP1ScoreText);
-        EventCenter.Instance.RemoveListener<int>("Player2ScoreChange", UpdateP2ScoreText);
+        EventCenter.Instance.RemoveListener<Player>("PlayerGetScore", UpdateScoreText);
     }
-
-    public void UpdateP1ScoreText(int score)
+    
+    public void UpdateScoreText(Player player)
     {
-        GetControl<Text>("P1Score").text = score.ToString();
-    }
-
-    public void UpdateP2ScoreText(int score)
-    {
-        GetControl<Text>("P2Score").text = score.ToString();
+        switch (player.playerType)
+        {
+            case PlayerType.P1:
+                GetControl<Text>("P1Score").text=GameManager.Instance.GetScore(player).ToString();
+                break;
+            case PlayerType.P2:
+                GetControl<Text>("P2Score").text = GameManager.Instance.GetScore(player).ToString();
+                break;
+        }
     }
 }

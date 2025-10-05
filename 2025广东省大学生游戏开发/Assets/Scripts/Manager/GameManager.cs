@@ -6,6 +6,8 @@ public class GameManager : Singleton<GameManager>
 {
     private Player p1;
     private Player p2;
+    private int p1Score;
+    private int p2Score;
 
 
     public Transform p1StartPos;
@@ -47,6 +49,32 @@ public class GameManager : Singleton<GameManager>
             Instantiate(p2.gameObject);
             p2.transform.position = p2StartPos.position;
         });
+    }
+
+    public void ChangeScore(Player player,int val)
+    {
+        switch (player.playerType)
+        {
+            case PlayerType.P1:
+                p1Score += val;
+                break;
+            case PlayerType.P2:
+                p2Score += val;
+                break;
+        }
+        EventCenter.Instance.EventTrigger<Player>("PlayerGetScore", player);
+    }
+
+    public int GetScore(Player player)
+    {
+        switch (player.playerType)
+        {
+            case PlayerType.P1:
+                return p1Score;
+            case PlayerType.P2:
+                return p2Score;
+        }
+        return 0;
     }
 
     public void OnPlayerDead(Player player)
