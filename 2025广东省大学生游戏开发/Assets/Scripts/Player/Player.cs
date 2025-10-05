@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
         ChangeScore(-10);
         movement.ChangeSpeed(upSpeed);
         canShoot = false;
+        AudioManager.Instance.PlayAudio("Fire");
         PoolManager.Instance.GetObj("Prefabs/Bullet", (obj) =>
         {
             obj.transform.position=transform.position+(Vector3)movement.GetCurDir()*0.8f;
@@ -139,6 +140,7 @@ public class Player : MonoBehaviour
     public void Dead()
     {
         EventCenter.Instance.EventTrigger<Player>("PlayerDead", this);
+        AudioManager.Instance.PlayAudio("Die");
         gameObject.SetActive(false);
     }
 
