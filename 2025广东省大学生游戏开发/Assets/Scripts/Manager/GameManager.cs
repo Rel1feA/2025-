@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
     private Player p1;
     private Player p2;
 
+
     public Transform p1StartPos;
     public Transform p2StartPos;
 
