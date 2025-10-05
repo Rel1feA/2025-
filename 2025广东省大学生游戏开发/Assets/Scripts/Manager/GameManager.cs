@@ -8,10 +8,14 @@ public class GameManager : Singleton<GameManager>
     private Player p2;
     private int p1Score;
     private int p2Score;
+    private float gTime;
 
 
     public Transform p1StartPos;
     public Transform p2StartPos;
+
+    public Sprite p1WinSprite;
+    public Sprite p2WinSprite;
 
     public float gameTime;//一局游戏持续多少秒
     public float playerRelifeTime;//玩家重生时间
@@ -30,9 +34,19 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
         UIManager.Instance.ShowPanel<ScorePanel>("ScorePanel");
         CreatePlayer();
+        gTime = gameTime;
+    }
+
+    private void Update()
+    {
+        gTime -= Time.deltaTime;
+        if(gTime<=0)
+        {
+            GameOver();
+            gTime = gameTime;
+        }
     }
 
     public void CreatePlayer()
@@ -114,5 +128,47 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(playerRelifeTime);
         RelifePlayer(player);
+    }
+
+    public int GetGTime()
+    {
+        return (int)gTime;
+    }
+
+    public void GameOver()
+    {
+        if(p1Score>=p2Score)
+        {
+            UIManager.Instance.ShowPanel<WinPanel>("WinPanel", E_UI_Layer.System, (panel) =>
+            {
+                panel.SetImg(p1WinSprite);
+            });
+        }
+        else
+        {
+            UIManager.Instance.ShowPanel<WinPanel>("WinPanel", E_UI_Layer.System, (panel) =>
+            {
+                panel.SetImg(p2WinSprite);
+            });
+        }
+        AudioManager.Instance.StopAudio("BGM");
+        AudioManager.Instance.PlayAudio("Win");
+        Time.timeScale = 0;
+        StartCoroutine(IBackToMenu(6f));
+    }
+
+    public void BackToMenu()
+    {
+        AudioManager.Instance.PlayAudio("BGM");
+        UIManager.Instance.HidePanel("ScorePanel");
+        UIManager.Instance.HidePanel("WinPanel");
+        LoadSceneManager.Instance.LoadSceneAsync("StartScene", null, null);
+        Time.timeScale = 1;
+    }
+
+    public IEnumerator IBackToMenu(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        BackToMenu();
     }
 }

@@ -16,6 +16,7 @@ public class StartPos : MonoBehaviour
                 AudioManager.Instance.PlayAudio("Score");
                 GameManager.Instance.ChangeScore(player,player.GetScore());
                 player.ChangeScore(-player.GetScore());
+                player.GetMovement().ResetSpeed();
             }
         }
     }

@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
         {
             score = 0;
         }
+        EventCenter.Instance.EventTrigger<Player>("PlayerScoreChange", this);
     }
 
     public void RotateSprite()
@@ -137,6 +138,12 @@ public class Player : MonoBehaviour
         return score;
     }
 
+    public PlayerMovement GetMovement()
+    {
+        return movement;
+    }
+
+
     public void Dead()
     {
         EventCenter.Instance.EventTrigger<Player>("PlayerDead", this);
@@ -149,6 +156,7 @@ public class Player : MonoBehaviour
         if(collision.CompareTag("Bean"))
         {
             collision.gameObject.SetActive(false);
+            AudioManager.Instance.PlayAudio("EatDot");
             movement.ChangeSpeed(lowSpeed);
             ChangeScore(collision.gameObject.GetComponent<Beans>().score);
         }

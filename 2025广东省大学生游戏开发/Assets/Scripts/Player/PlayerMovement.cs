@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb2d;
     private Vector2 currentDir;
     private Vector2 inputDir;
+    private Vector2 nextDir;
 
     public float speed;
     [Range(0.3f,1f)]
@@ -100,6 +101,11 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 GetCurDir()
     {
         return currentDir;
+    }
+
+    public void ResetSpeed()
+    {
+        speedMultiplier = 1f;
     }
 
     public void ResetMovement()

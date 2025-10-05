@@ -8,13 +8,20 @@ public class ScorePanel : BasePanel
     private void OnEnable()
     {
         EventCenter.Instance.AddListener<Player>("PlayerGetScore", UpdateScoreText);
+        EventCenter.Instance.AddListener<Player>("PlayerScoreChange", UpdateBulletText);
     }
 
     private void OnDisable()
     {
         EventCenter.Instance.RemoveListener<Player>("PlayerGetScore", UpdateScoreText);
+        EventCenter.Instance.RemoveListener<Player>("PlayerScoreChange", UpdateBulletText);
     }
-    
+
+    private void Update()
+    {
+        GetControl<Text>("TimeTXT").text = GameManager.Instance.GetGTime().ToString();
+    }
+
     public void UpdateScoreText(Player player)
     {
         switch (player.playerType)
@@ -27,4 +34,18 @@ public class ScorePanel : BasePanel
                 break;
         }
     }
+
+    public void UpdateBulletText(Player player)
+    {
+        switch (player.playerType)
+        {
+            case PlayerType.P1:
+                GetControl<Text>("P1BT").text = (player.GetScore()/10).ToString();
+                break;
+            case PlayerType.P2:
+                GetControl<Text>("P2BT").text = (player.GetScore()/10).ToString();
+                break;
+        }
+    }
+
 }
