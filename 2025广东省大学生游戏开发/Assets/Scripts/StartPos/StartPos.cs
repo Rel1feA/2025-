@@ -13,6 +13,7 @@ public class StartPos : MonoBehaviour
             Player player =collision.GetComponent<Player>();
             if(player.playerType==playerType)
             {
+                AudioManager.Instance.PlayAudio("Score");
                 GameManager.Instance.ChangeScore(player,player.GetScore());
                 player.ChangeScore(-player.GetScore());
             }
