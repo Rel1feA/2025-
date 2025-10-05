@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         movement.SetInputDir(inputActions,playerType);
+        RotateSprite();
     }
 
     public void ResetPlayer()
@@ -82,6 +83,27 @@ public class Player : MonoBehaviour
     {
         score += val;
         EventCenter.Instance.EventTrigger("Player1ScoreChange",score);
+    }
+
+    public void RotateSprite()
+    {
+        Vector2 dir= movement.GetCurDir();
+        if(dir==Vector2.right)
+        {
+            transform.rotation = Quaternion.Euler(0,0,0);
+        }
+        else if(dir==Vector2.up)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else if( dir==Vector2.down)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+        }
+        else if(dir == Vector2.left)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        currentDir = Vector2.down;
+        currentDir = Vector2.right;
     }
 
     private void Update()
