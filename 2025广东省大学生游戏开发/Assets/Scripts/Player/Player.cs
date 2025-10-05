@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float upSpeed;//射出豆子后增加的速度
 
     private int score;
+    private bool canShoot;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     {
         inputActions.Enable();
         InitInput();
+        ResetPlayer();
     }
 
     private void OnDisable()
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
     public void ResetPlayer()
     {
         score = 0;
+        canShoot = true;
     }
 
     public void InitInput()
@@ -74,13 +77,17 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext c)
     {
+        if (!canShoot) return;
         if (score < 10) return;
         ChangeScore(-10);
+        canShoot = false;
         PoolManager.Instance.GetObj("Prefabs/Bullet", (obj) =>
         {
             obj.transform.position=transform.position+(Vector3)movement.GetCurDir()*0.8f;
             obj.transform.rotation=transform.rotation;
-            obj.GetComponent<Bullet>().dir = movement.GetCurDir();
+            Bullet bullet = obj.GetComponent<Bullet>();
+            bullet.SetShootPlayer(this);
+            bullet.dir=movement.GetCurDir();
         });
     }
 
@@ -125,9 +132,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetCanShoot(bool canShoot)
+    {
+        this.canShoot = canShoot;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
     public void Dead()
     {
-        Debug.Log(name + "Dead");
+        EventCenter.Instance.EventTrigger<Player>("PlayerDead", this);
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
