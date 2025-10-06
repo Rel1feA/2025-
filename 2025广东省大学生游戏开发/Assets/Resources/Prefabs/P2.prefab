@@ -164,9 +164,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 1
-  lowSpeed: -0.01
   upSpeed: 0.01
   bossTime: 2
+  isInBoss: 0
   cCollider: {fileID: 0}
 --- !u!114 &4716343264770710140
 MonoBehaviour:

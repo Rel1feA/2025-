@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -46,6 +47,10 @@ public class GameManager : Singleton<GameManager>
         {
             GameOver();
             gTime = gameTime;
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            ReStartGame();
         }
     }
 
@@ -135,6 +140,12 @@ public class GameManager : Singleton<GameManager>
         return (int)gTime;
     }
 
+    public void ReStartGame()
+    {
+        PoolManager.Instance.Clear();
+        LoadSceneManager.Instance.LoadActiveScene();
+    }
+
     public void GameOver()
     {
         if(p1Score>=p2Score)
@@ -154,6 +165,7 @@ public class GameManager : Singleton<GameManager>
         AudioManager.Instance.StopAudio("BGM");
         AudioManager.Instance.PlayAudio("Win");
         Time.timeScale = 0;
+        PoolManager.Instance.Clear();
         StartCoroutine(IBackToMenu(6f));
     }
 

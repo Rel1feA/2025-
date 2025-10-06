@@ -176,6 +176,7 @@ public class Player : MonoBehaviour
 
     public void Dead()
     {
+        if (isInBoss) return;
         EventCenter.Instance.EventTrigger<Player>("PlayerDead", this);
         AudioManager.Instance.PlayAudio("Die");
         gameObject.SetActive(false);
